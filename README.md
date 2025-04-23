@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+# 🐱 Cat Image Viewer — учебный React-проект
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Этот проект представляет собой небольшой учебный SPA на React, который позволяет получать случайные изображения котиков с помощью API. Он служит в качестве практики по работе с различными подходами к стилизации компонентов в React.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Что реализовано
 
-## Expanding the ESLint configuration
+- ✅ Получение изображений котов с публичного API
+- ✅ Управление состоянием с помощью `useState` и кастомного хука
+- ✅ Автообновление изображений с интервалом в 5 секунд
+- ✅ Разные способы стилизации компонентов:
+  - CSS Modules
+  - Sass (SCSS)
+  - Styled Components
+- ✅ Навигация между страницами через `react-router-dom`
+- ✅ Центрирование контента с использованием Flexbox
+- ✅ Адаптация и улучшение пользовательского интерфейса
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Используемые технологии
 
-```js
-export default tseslint.config({
-    extends: [
-        // Remove ...tseslint.configs.recommended and replace with this
-        ...tseslint.configs.recommendedTypeChecked,
-        // Alternatively, use this for stricter rules
-        ...tseslint.configs.strictTypeChecked,
-        // Optionally, add this for stylistic rules
-        ...tseslint.configs.stylisticTypeChecked,
-    ],
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ['./tsconfig.node.json', './tsconfig.app.json'],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
-```
+- ⚛️ **React** + 🟦 **TypeScript**
+- 🎨 **CSS Modules**, 💅 **Sass**, ✨ **Styled Components**
+- 🧭 **React Router DOM** для маршрутизации
+- 🧹 **Prettier** для форматирования кода
+- ⚡ **Vite** (или CRA) — для быстрого dev-сервера и сборки
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+## 📘 Чему научились
 
-export default tseslint.config({
-    plugins: {
-        // Add the react-x and react-dom plugins
-        'react-x': reactX,
-        'react-dom': reactDom,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended typescript rules
-        ...reactX.configs['recommended-typescript'].rules,
-        ...reactDom.configs.recommended.rules,
-    },
-});
+- Разные подходы к стилизации компонентов
+- Создание кастомных React-хуков
+- Работа с асинхронными запросами и API
+- Настройка маршрутизации и переходов между страницами
+- Организация компонентов по модулям
+- Базовая работа с UI/UX (стили, состояния, эффекты)
+- Подключение и настройка Prettier для форматирования кода
+
+---
+
+## 📦 Как запустить проект
+
+### 1. Клонировать репозиторий
+
+```bash
+git clone https://github.com/Top4ik228-Akey-Ivan/CatApp
+cd CatApp
+yarn install
+yarn dev
 ```
