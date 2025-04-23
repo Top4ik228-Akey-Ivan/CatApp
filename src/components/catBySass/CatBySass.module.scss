@@ -1,0 +1,181 @@
+// Переменные
+$primary-color: #4a00e0;
+$secondary-color: #8e2de2;
+$error-color: #e63946;
+$text-color: #495057;
+$border-color: #6c757d;
+$disabled-color: #cccccc;
+$card-bg: #f8f9fa;
+
+// Миксины
+@mixin transition($property: all, $duration: 0.3s, $ease: ease) {
+    transition: $property $duration $ease;
+}
+
+@mixin box-shadow($level: 1) {
+    @if $level ==1 {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    } @else if $level ==2 {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    } @else {
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    .card {
+        padding: 20px;
+        background: $card-bg;
+        border-radius: 10px;
+        @include box-shadow(1);
+        max-width: 300px;
+
+        .checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkboxContainer {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            user-select: none;
+
+            input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+
+                &:checked ~ .checkmark {
+                    background-color: $primary-color;
+                    border-color: $primary-color;
+                }
+
+                &:disabled ~ .checkmark {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            &:hover input:not(:disabled) ~ .checkmark {
+                border-color: $primary-color;
+            }
+
+            .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 20px;
+                width: 20px;
+                background-color: #fff;
+                border: 2px solid $border-color;
+                border-radius: 4px;
+                @include transition;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    display: none;
+                    left: 6px;
+                    top: 2px;
+                    width: 5px;
+                    height: 10px;
+                    border: solid white;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+            }
+
+            input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            .label {
+                margin-left: 8px;
+                font-family: 'Segoe UI', sans-serif;
+                color: $text-color;
+            }
+        }
+
+        .getCatButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, $primary-color, $secondary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            @include transition;
+            @include box-shadow(1);
+            width: 100%;
+
+            &:hover:not(:disabled) {
+                background: linear-gradient(
+                    135deg,
+                    darken($primary-color, 10%),
+                    darken($secondary-color, 10%)
+                );
+                transform: translateY(-2px);
+                @include box-shadow(2);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+                @include box-shadow;
+            }
+
+            &:disabled {
+                background: $disabled-color;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+                opacity: 0.7;
+            }
+        }
+
+        .error {
+            margin-top: 15px;
+            color: $error-color;
+            font-weight: bold;
+        }
+
+        .catImageContainer {
+            margin-top: 20px;
+            text-align: center;
+
+            .catImage {
+                max-width: 100%;
+                border-radius: 8px;
+                @include box-shadow(1);
+                max-height: 400px;
+                object-fit: contain;
+            }
+
+            .autoRefreshInfo {
+                margin-top: 10px;
+                color: $primary-color;
+                font-size: 0.9em;
+                font-style: italic;
+            }
+        }
+
+        .loading {
+            margin-top: 15px;
+            color: $primary-color;
+            font-style: italic;
+        }
+    }
+}

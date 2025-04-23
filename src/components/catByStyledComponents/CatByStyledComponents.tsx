@@ -1,0 +1,212 @@
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import useCatApi from '../../hooks/useCatApi';
+
+const CatByStyledComponents: React.FC = () => {
+    const [enabled, setEnabled] = useState(true);
+    const [autoRefresh, setAutoRefresh] = useState(false);
+    const { catData, loading, error, fetchCat } = useCatApi(autoRefresh && enabled);
+
+    const handleAutoRefreshChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAutoRefresh(e.target.checked);
+    };
+
+    const handleGetCat = () => {
+        if (enabled) {
+            fetchCat();
+        }
+    };
+
+    return (
+        <PageWrapper>
+            <Card>
+                <Checkboxes>
+                    <CheckboxContainer>
+                        <LabelText>Enabled</LabelText>
+                        <input
+                            type="checkbox"
+                            checked={enabled}
+                            onChange={(e) => setEnabled(e.target.checked)}
+                            disabled={loading}
+                        />
+                        <span className="checkmark" />
+                    </CheckboxContainer>
+
+                    <CheckboxContainer>
+                        <LabelText>Auto-refresh 5 seconds</LabelText>
+                        <input
+                            type="checkbox"
+                            checked={autoRefresh}
+                            onChange={handleAutoRefreshChange}
+                            disabled={!enabled || loading}
+                        />
+                        <span className="checkmark" />
+                    </CheckboxContainer>
+                </Checkboxes>
+
+                <GetCatButton onClick={handleGetCat} disabled={!enabled || loading || autoRefresh}>
+                    {loading ? 'Loading...' : 'Get Cat'}
+                </GetCatButton>
+
+                {error && <ErrorText>Error: {error}</ErrorText>}
+
+                {catData && (
+                    <CatImageContainer>
+                        <CatImage src={catData[0].url} alt="Random cat" />
+                        {autoRefresh && enabled && (
+                            <AutoRefreshInfo>Auto-refresh every 5 seconds...</AutoRefreshInfo>
+                        )}
+                    </CatImageContainer>
+                )}
+            </Card>
+        </PageWrapper>
+    );
+};
+
+const PageWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+`;
+
+const Card = styled.div`
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+`;
+
+const Checkboxes = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+`;
+
+const CheckboxContainer = styled.label`
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #6c757d;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    &:hover input ~ .checkmark {
+        border-color: #4a00e0;
+    }
+
+    input:checked ~ .checkmark {
+        background-color: #4a00e0;
+        border-color: #4a00e0;
+    }
+
+    .checkmark:after {
+        content: '';
+        position: absolute;
+        display: none;
+    }
+
+    input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+`;
+
+const LabelText = styled.span`
+    margin-left: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #495057;
+`;
+
+const GetCatButton = styled.button<{ disabled?: boolean }>`
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+
+    &:hover:enabled {
+        background: linear-gradient(135deg, #3a00c8, #7e1dc2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active:enabled {
+        transform: translateY(0);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.7;
+    }
+`;
+
+const ErrorText = styled.div`
+    margin-top: 15px;
+    color: #e63946;
+    font-weight: bold;
+`;
+
+const CatImageContainer = styled.div`
+    margin-top: 20px;
+    text-align: center;
+`;
+
+const CatImage = styled.img`
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 400px;
+    object-fit: contain;
+`;
+
+const AutoRefreshInfo = styled.div`
+    margin-top: 10px;
+    color: #4a00e0;
+    font-size: 0.9em;
+    font-style: italic;
+`;
+
+export default CatByStyledComponents;
